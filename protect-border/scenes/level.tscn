@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bflbgcsy2rali"]
+
+[ext_resource type="PackedScene" uid="uid://bpxy1vg8l0ra8" path="res://scenes/player.tscn" id="1_2q6dc"]
+
+[sub_resource type="Curve2D" id="Curve2D_2q6dc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1009, -3, 0, 0, 0, 0, 1017, 644)
+}
+point_count = 2
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_2q6dc")]
+position = Vector2(312, 206)
+
+[node name="EnemySpawnZone" type="Path2D" parent="."]
+curve = SubResource("Curve2D_2q6dc")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="EnemySpawnZone"]
+position = Vector2(1009, -3)
+rotation = 1.55843
