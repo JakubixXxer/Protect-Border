@@ -24,8 +24,9 @@ func shoot() -> void:
 		ammo -= 1
 		
 		%HUD.shoot(ammo, maxAmmo)
-	else:
-		%Reload.start()
+		
+		if ammo == 0 && %Reload.time_left == 0:
+			%Reload.start()
 
 
 func _physics_process(delta: float) -> void:
