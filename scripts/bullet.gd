@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name Bullet
+
 const SPEED: int = 5000
 var direction := Vector2.ZERO
 
