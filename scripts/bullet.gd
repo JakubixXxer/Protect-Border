@@ -15,3 +15,12 @@ func _on_body_entered(node: Node) -> void:
 	if node is Enemy:
 		node.hitted()
 		queue_free()
+	elif node is Area2D:
+		node.get_parent().hitted()
+
+
+func _on_area_entered(area: Area2D) -> void:
+	var parent = area.get_parent()
+	if parent is Enemy:
+		parent.hitted()
+		queue_free()

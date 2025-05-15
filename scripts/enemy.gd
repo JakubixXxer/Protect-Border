@@ -4,7 +4,8 @@ class_name Enemy
 signal enemy_died
 signal enemy_arrested
 
-var SPEED = 60000
+const DEFSPEED = 60000
+var speed = DEFSPEED
 
 enum State{
 	WALK,
@@ -23,9 +24,14 @@ func die() -> void:
 
 func set_stune() -> void:
 	enemyState = State.STUNNED
-	%StunTimer.start()
-	collision_mask = 0
-	collision_layer = 3
+	$StunTimer.start()
+	$CollisionShape2D.call_deferred("set_disabled", true)
+	z_index = -1
+
+func set_normal() -> void:
+	enemyState = State.WALK
+	$CollisionShape2D.call_deferred("set_disabled", false)
+	z_index = 0
 
 func hitted() -> void:
 	if enemyState == State.STUNNED:
@@ -42,7 +48,7 @@ func _physics_process(delta: float) -> void:
 
 	if direction != Vector2.ZERO or enemyState == State.WALK:
 		direction = direction.normalized()
-		velocity = direction * SPEED * delta
+		velocity = direction * speed * delta
 	else:
 		velocity = Vector2.ZERO
 
@@ -51,23 +57,24 @@ func _physics_process(delta: float) -> void:
 
 func _on_timer_timeout() -> void:
 	if enemyState == State.STUNNED:
-		enemyState = State.WALK
-		collision_mask = 1
-		collision_layer = 2
+		set_normal()
 
-
+## Player/Enemy contact
+## @deprecated This doesn't work
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is Player && enemyState == State.STUNNED:
+	print("Body entered area2d")
+	
+	body.SPEED = body.DEFSPEED / 2
+	$StunTimer.paused = true
+	
+	if body is Player:
+		print("It's a player")
 		arrest()
-	elif body is Enemy:
-		body.SPEED = 30000
-		%StunTimer.paused = true
-	elif body is Bullet:
-		die()
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body is Enemy && enemyState == State.STUNNED:
-		body.SPEED = 60000
-		%StunTimer.paused = false
-		%StunTimer.start()
+	body.SPEED = body.DEFSPEED
+	
+	$StunTimer.paused = false
+	$StunTimer.start()
+##

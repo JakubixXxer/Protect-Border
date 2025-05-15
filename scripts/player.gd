@@ -1,9 +1,10 @@
 extends CharacterBody2D
 class_name Player
 
-const SPEED = 60000
+const DEFSPEED = 60000
 const maxAmmo = 20
 
+var speed = DEFSPEED
 var ammo = 20
 
 func hitted() -> void:
@@ -49,7 +50,7 @@ func _physics_process(delta: float) -> void:
 
 	if direction != Vector2.ZERO:
 		direction = direction.normalized()
-		velocity = direction * SPEED * delta
+		velocity = direction * speed * delta
 	else:
 		velocity = Vector2.ZERO
 	

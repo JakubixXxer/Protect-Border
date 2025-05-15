@@ -17,4 +17,4 @@ func update_magazine(ammo: int) -> void:
 	%AmmoLabel.text = str(ammo) + "/" + str(Player.maxAmmo)
 
 func _physics_process(delta: float) -> void:
-	%Timer.text = str(int(%GameTimer.time_left))
+	%Timer.text = str(int(%GameTimer.time_left)) + " sec"

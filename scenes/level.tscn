@@ -67,7 +67,7 @@ offset_left = 516.0
 offset_top = 1.0
 offset_right = 590.0
 offset_bottom = 56.0
-text = "60"
+text = "60 sec"
 label_settings = SubResource("LabelSettings_ppgk2")
 
 [node name="AmmoLabel" type="Label" parent="HUD"]
