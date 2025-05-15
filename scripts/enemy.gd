@@ -1,6 +1,9 @@
 extends CharacterBody2D
 class_name Enemy
 
+signal enemy_died
+signal enemy_arrested
+
 var SPEED = 60000
 
 enum State{
@@ -11,10 +14,11 @@ enum State{
 var enemyState = State.WALK
 
 func arrest() -> void:
-	print("You got it")
+	emit_signal("enemy_arrested")
 	die()
 
 func die() -> void:
+	emit_signal("enemy_died")
 	queue_free()
 
 func set_stune() -> void:
@@ -53,17 +57,17 @@ func _on_timer_timeout() -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body == Player && enemyState == State.STUNNED:
+	if body is Player && enemyState == State.STUNNED:
 		arrest()
-	elif body == Enemy:
+	elif body is Enemy:
 		body.SPEED = 30000
 		%StunTimer.paused = true
-	elif body == Bullet:
+	elif body is Bullet:
 		die()
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body == Enemy && enemyState == State.STUNNED:
+	if body is Enemy && enemyState == State.STUNNED:
 		body.SPEED = 60000
 		%StunTimer.paused = false
 		%StunTimer.start()

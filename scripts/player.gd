@@ -3,27 +3,33 @@ class_name Player
 
 const SPEED = 60000
 const maxAmmo = 20
+
 var ammo = 20
 
 func hitted() -> void:
 	print("Player got hitted")
 
+func reload() -> void:
+	ammo = maxAmmo
+	%HUD.update_magazine(ammo)
+
 func shoot() -> void:
 	if ammo > 0:
 		var bullet_scene = preload("res://scenes/bullet.tscn").instantiate()
 
-		# ustaw pozycję pocisku w miejscu gracza
+		# Bullet in player position
 		bullet_scene.global_position = %Marker2D.global_position
 
-		# oblicz kierunek na mysz i przekaż do pocisku
+		# Calculate direction for mouse and set this
 		var dir = (get_global_mouse_position() - global_position).normalized()
 		bullet_scene.direction = dir
 
-		# dodaj do sceny
+		# Add to scene
 		get_tree().current_scene.add_child(bullet_scene)
-		ammo -= 1
 		
-		%HUD.shoot(ammo, maxAmmo)
+		# Magazine changing
+		ammo -= 1
+		%HUD.update_magazine(ammo)
 		
 		if ammo == 0 && %Reload.time_left == 0:
 			%Reload.start()
@@ -51,12 +57,13 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		shoot()
-
+	if event.is_action("g_reload"):
+		ammo = 0
+		%HUD.update_magazine(ammo)
+		%Reload.start()
 
 func _on_timer_timeout() -> void:
-	ammo = maxAmmo
-	%HUD.shoot(ammo, maxAmmo)
+	reload()

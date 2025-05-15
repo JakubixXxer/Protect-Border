@@ -12,6 +12,6 @@ func _physics_process(delta: float) -> void:
 	position += direction * SPEED * delta
 
 func _on_body_entered(node: Node) -> void:
-	if node.has_method("hitted") && node is Enemy:
+	if node is Enemy:
 		node.hitted()
 		queue_free()
