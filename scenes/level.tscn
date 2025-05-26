@@ -1,14 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://bflbgcsy2rali"]
+[gd_scene load_steps=14 format=3 uid="uid://bflbgcsy2rali"]
 
 [ext_resource type="PackedScene" uid="uid://bpxy1vg8l0ra8" path="res://scenes/player.tscn" id="1_2q6dc"]
 [ext_resource type="Script" uid="uid://dsqs6epptlkql" path="res://scripts/gameManager.gd" id="1_w7c3h"]
-[ext_resource type="Script" uid="uid://bwye66qmvj2fv" path="res://scripts/enemy_spawn_zone.gd" id="3_mx8sn"]
+[ext_resource type="PackedScene" uid="uid://ggygtq45fav3" path="res://scenes/pistol.tscn" id="3_2r41h"]
 [ext_resource type="Script" uid="uid://bfmmuf5s3du1a" path="res://scripts/camera.gd" id="3_w8frs"]
 [ext_resource type="Script" uid="uid://po6tjk7l4ks0" path="res://scripts/HUD.gd" id="5_ppgk2"]
 
 [sub_resource type="Curve2D" id="Curve2D_2q6dc"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1007, -491, 0, 0, 0, 0, 1017, 644)
+"points": PackedVector2Array(0, 0, 0, 0, 1007, -491, 0, 0, 0, 0, 1006.23, 1037.94)
 }
 point_count = 2
 
@@ -24,6 +24,15 @@ font_size = 24
 [sub_resource type="LabelSettings" id="LabelSettings_b121j"]
 font_size = 24
 
+[sub_resource type="LabelSettings" id="LabelSettings_8c41q"]
+font_size = 30
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2r41h"]
+size = Vector2(4096.25, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_klq6b"]
+size = Vector2(25, 2533.64)
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_w7c3h")
 
@@ -35,17 +44,20 @@ autostart = true
 [node name="Player" parent="." instance=ExtResource("1_2q6dc")]
 unique_name_in_owner = true
 position = Vector2(312, 206)
+collision_layer = 1
+
+[node name="Pistol" parent="Player" instance=ExtResource("3_2r41h")]
+position = Vector2(62, -5)
 
 [node name="EnemySpawnZone" type="Path2D" parent="."]
-position = Vector2(1500, 71.841)
-scale = Vector2(0.802, 1.5)
+position = Vector2(1500, -387.947)
+scale = Vector2(0.802, 2.21396)
 curve = SubResource("Curve2D_2q6dc")
-script = ExtResource("3_mx8sn")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="EnemySpawnZone"]
 unique_name_in_owner = true
-position = Vector2(1008.68, -300.452)
-rotation = 1.56199
+position = Vector2(1006.9, -300.444)
+rotation = 1.5713
 progress = 190.556
 
 [node name="TimerOfEnemies" type="Timer" parent="."]
@@ -94,5 +106,35 @@ offset_right = 271.0
 offset_bottom = 39.0
 text = "Killed: 0"
 label_settings = SubResource("LabelSettings_b121j")
+
+[node name="ReloadTime" type="Label" parent="HUD"]
+unique_name_in_owner = true
+offset_left = 1075.0
+offset_top = 565.0
+offset_right = 1115.0
+offset_bottom = 607.0
+label_settings = SubResource("LabelSettings_8c41q")
+
+[node name="GameBorder" type="StaticBody2D" parent="."]
+collision_layer = 128
+collision_mask = 0
+
+[node name="TopBorder" type="CollisionShape2D" parent="GameBorder"]
+position = Vector2(311, -1484)
+shape = SubResource("RectangleShape2D_2r41h")
+
+[node name="BottomBorder" type="CollisionShape2D" parent="GameBorder"]
+position = Vector2(311.125, 1918)
+shape = SubResource("RectangleShape2D_2r41h")
+
+[node name="LeftBorder" type="CollisionShape2D" parent="GameBorder"]
+position = Vector2(-1621, 217.5)
+scale = Vector2(1, 1.35102)
+shape = SubResource("RectangleShape2D_klq6b")
+
+[node name="RightBorder" type="CollisionShape2D" parent="GameBorder"]
+position = Vector2(2242, 217.5)
+scale = Vector2(1, 1.35102)
+shape = SubResource("RectangleShape2D_klq6b")
 
 [connection signal="timeout" from="TimerOfEnemies" to="." method="_on_timer_timeout"]

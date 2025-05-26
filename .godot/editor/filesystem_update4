@@ -1,8 +1,8 @@
 res://scenes/level.tscn
-res://scripts/HUD.gd
 res://scenes/player.tscn
 res://scenes/enemy.tscn
+res://scenes/pistol.tscn
 res://scenes/bullet.tscn
+res://scripts/pistol.gd
 res://scripts/enemy.gd
-res://scripts/bullet.gd
-res://scripts/player.gd
+res://scripts/gameManager.gd

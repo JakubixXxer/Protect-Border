@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://ggygtq45fav3"]
+
+[ext_resource type="Script" uid="uid://be1bnsmrn5p3w" path="res://scripts/pistol.gd" id="1_buff3"]
+[ext_resource type="Texture2D" uid="uid://b71h7utjfo20h" path="res://assets/pistol.png" id="1_igbvm"]
+
+[node name="Pistol" type="Area2D"]
+scale = Vector2(4, 4)
+script = ExtResource("1_buff3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_igbvm")
+
+[node name="Reload" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(1.5, 0.5)
+
+[node name="ShootInterval" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="timeout" from="Reload" to="." method="_on_reload_timeout"]

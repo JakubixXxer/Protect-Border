@@ -14,7 +14,7 @@ func update_killed() -> void:
 	$KilledLabel.text = "Killed: " + str(killed)
 
 func update_magazine(ammo: int) -> void:
-	%AmmoLabel.text = str(ammo) + "/" + str(Player.maxAmmo)
+	%AmmoLabel.text = str(ammo) + "/" + str(Pistol.maxAmmo)
 
 func _physics_process(delta: float) -> void:
 	%Timer.text = str(int(%GameTimer.time_left)) + " sec"

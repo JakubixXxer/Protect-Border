@@ -4,7 +4,9 @@ class_name Enemy
 signal enemy_died
 signal enemy_arrested
 
+const SPRITE_NUMBERS: int = 2
 const DEFSPEED = 60000
+
 var speed = DEFSPEED
 
 enum State{
@@ -14,9 +16,13 @@ enum State{
 
 var enemyState = State.WALK
 
+# Future randomizing skin
+#func _ready() -> void:
+#	$Sprite2D.texture = "res://assets/enemy" + str(randi_range(1, SPRITE_NUMBERS)) + ".png"
+
 func arrest() -> void:
 	emit_signal("enemy_arrested")
-	die()
+	queue_free()
 
 func die() -> void:
 	emit_signal("enemy_died")
@@ -54,26 +60,22 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-
 func _on_timer_timeout() -> void:
 	if enemyState == State.STUNNED:
 		set_normal()
 
 ## Player/Enemy contact
-## @deprecated This doesn't work
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	print("Body entered area2d")
-	
-	body.SPEED = body.DEFSPEED / 2
-	$StunTimer.paused = true
-	
-	if body is Player:
-		print("It's a player")
-		arrest()
+	if enemyState == State.STUNNED:
+		body.speed = body.DEFSPEED / 2
+		$StunTimer.paused = true
+		
+		if body is Player:
+			arrest()
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	body.SPEED = body.DEFSPEED
+	body.speed = body.DEFSPEED
 	
 	$StunTimer.paused = false
 	$StunTimer.start()
