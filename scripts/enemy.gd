@@ -1,24 +1,25 @@
 extends CharacterBody2D
 class_name Enemy
 
-signal enemy_died
 signal enemy_arrested
+signal enemy_died
+signal enemy_escaped
 
 const SPRITE_NUMBERS: int = 2
-const DEFSPEED = 60000
+const DEFSPEED: int = 60000
 
-var speed = DEFSPEED
+var speed: int = DEFSPEED
 
 enum State{
 	WALK,
 	STUNNED
 }
 
-var enemyState = State.WALK
+var enemyState: State = State.WALK
 
 # Future randomizing skin
-#func _ready() -> void:
-#	$Sprite2D.texture = load("res://assets/enemy" + str(randi_range(1, SPRITE_NUMBERS)) + ".png")
+func _ready() -> void:
+	$Sprite2D.texture = load("res://assets/enemy" + str(randi_range(1, SPRITE_NUMBERS)) + ".png")
 
 func arrest() -> void:
 	emit_signal("enemy_arrested")
@@ -26,6 +27,10 @@ func arrest() -> void:
 
 func die() -> void:
 	emit_signal("enemy_died")
+	queue_free()
+
+func escape() -> void:
+	emit_signal("enemy_escaped")
 	queue_free()
 
 func set_stune() -> void:

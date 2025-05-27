@@ -11,13 +11,17 @@ script = ExtResource("1_buff3")
 texture_filter = 1
 texture = ExtResource("1_igbvm")
 
+[node name="BulletSpawnMarker" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(1.75, 0)
+
+[node name="DirectionMarker" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(4, 0)
+
 [node name="Reload" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
-
-[node name="Marker2D" type="Marker2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(1.5, 0.5)
 
 [node name="ShootInterval" type="Timer" parent="."]
 wait_time = 0.25

@@ -5,9 +5,6 @@ class_name Bullet
 const SPEED: int = 5000
 var direction := Vector2.ZERO
 
-func _ready() -> void:
-	look_at(get_global_mouse_position())
-
 func _physics_process(delta: float) -> void:
 	position += direction * SPEED * delta
 

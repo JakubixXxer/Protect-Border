@@ -14,12 +14,12 @@ func shoot() -> void:
 		if ammo > 0:
 			var bullet_scene = preload("res://scenes/bullet.tscn").instantiate()
 
-			# Bullet in player position
-			bullet_scene.global_position = %Marker2D.global_position
+			# Bullet in marker position
+			bullet_scene.global_position = %BulletSpawnMarker.global_position
 
 			# Calculate direction for mouse and set this
-			var dir = (get_global_mouse_position() - global_position).normalized()
-			bullet_scene.direction = dir
+			bullet_scene.look_at(%DirectionMarker.global_position)
+			bullet_scene.direction = bullet_scene.transform.x.normalized()
 
 			# Add to scene
 			get_tree().current_scene.add_child(bullet_scene)
@@ -28,21 +28,26 @@ func shoot() -> void:
 			ammo -= 1
 			%HUD.update_magazine(ammo)
 			
+			# Interval between shoots
 			$ShootInterval.start()
 			
+			# If magazine is empty and player is not reloading -> Reload weapon
 			if ammo == 0 && $Reload.time_left == 0:
 				$Reload.start()
 
 func _input(event):
+	# If player press lmb -> shoot
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		shoot()
+	# If the button is reload button -> reload
 	if event.is_action("g_reload"):
 		ammo = 0
 		%HUD.update_magazine(ammo)
 		$Reload.start()
 		
-#		while(%Reload.time_left):
-#			%ReloadTime.text = str(int(%Reload.time_left) + "s")
+		# Show time left to reload
+		#while(%Reload.time_left):
+			#%ReloadTime.text = str(int(%Reload.time_left) + "s")
 
 func _on_reload_timeout() -> void:
 	reload()

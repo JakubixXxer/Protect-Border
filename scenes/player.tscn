@@ -7,7 +7,6 @@
 radius = 64.195
 
 [node name="Player" type="CharacterBody2D"]
-collision_layer = 129
 collision_mask = 130
 script = ExtResource("1_g2els")
 

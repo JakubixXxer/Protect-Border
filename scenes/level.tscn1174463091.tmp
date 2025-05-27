@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bflbgcsy2rali"]
+[gd_scene load_steps=18 format=3 uid="uid://bflbgcsy2rali"]
 
 [ext_resource type="PackedScene" uid="uid://bpxy1vg8l0ra8" path="res://scenes/player.tscn" id="1_2q6dc"]
 [ext_resource type="Script" uid="uid://dsqs6epptlkql" path="res://scripts/gameManager.gd" id="1_w7c3h"]
@@ -47,12 +47,8 @@ a = Vector2(-11, -1266.82)
 b = Vector2(-11, 1266.82)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_8c41q"]
-a = Vector2(-12, -1691)
-b = Vector2(-21, 2164)
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_olg7q"]
-a = Vector2(-1851, -1683)
-b = Vector2(2555, -1687)
+a = Vector2(-16, -1609)
+b = Vector2(-21, 2025)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_w7c3h")
@@ -65,6 +61,7 @@ autostart = true
 [node name="Player" parent="." instance=ExtResource("1_2q6dc")]
 unique_name_in_owner = true
 position = Vector2(312, 206)
+collision_layer = 1
 
 [node name="Pistol" parent="Player" instance=ExtResource("3_2r41h")]
 position = Vector2(62, -5)
@@ -112,10 +109,10 @@ text = "20/20"
 label_settings = SubResource("LabelSettings_2r41h")
 
 [node name="ArrestedLabel" type="Label" parent="HUD"]
-offset_left = 9.0
-offset_top = 5.0
-offset_right = 136.0
-offset_bottom = 39.0
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 129.0
+offset_bottom = 38.0
 text = "Arrested: 0"
 label_settings = SubResource("LabelSettings_klq6b")
 
@@ -166,23 +163,10 @@ scale = Vector2(1, 1.35102)
 shape = SubResource("SegmentShape2D_b121j")
 
 [node name="EscapingEnemies" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 6
 
-[node name="RightBorder" type="CollisionShape2D" parent="EscapingEnemies"]
-position = Vector2(2563, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EscapingEnemies"]
+position = Vector2(-1671, 0)
 shape = SubResource("SegmentShape2D_8c41q")
-
-[node name="LeftBorder" type="CollisionShape2D" parent="EscapingEnemies"]
-position = Vector2(-1824, 0)
-shape = SubResource("SegmentShape2D_8c41q")
-
-[node name="TopBorder" type="CollisionShape2D" parent="EscapingEnemies"]
-shape = SubResource("SegmentShape2D_olg7q")
-
-[node name="BottomBorder" type="CollisionShape2D" parent="EscapingEnemies"]
-position = Vector2(0, 3841)
-shape = SubResource("SegmentShape2D_olg7q")
 
 [connection signal="timeout" from="TimerOfEnemies" to="." method="_on_timer_timeout"]
-[connection signal="area_exited" from="EscapingEnemies" to="." method="_on_escaping_enemies_area_exited"]
+[connection signal="body_exited" from="EscapingEnemies" to="." method="_on_escaping_enemies_body_exited"]
