@@ -18,7 +18,7 @@ var enemyState = State.WALK
 
 # Future randomizing skin
 #func _ready() -> void:
-#	$Sprite2D.texture = "res://assets/enemy" + str(randi_range(1, SPRITE_NUMBERS)) + ".png"
+#	$Sprite2D.texture = load("res://assets/enemy" + str(randi_range(1, SPRITE_NUMBERS)) + ".png")
 
 func arrest() -> void:
 	emit_signal("enemy_arrested")
