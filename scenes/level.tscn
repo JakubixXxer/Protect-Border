@@ -1,10 +1,13 @@
-[gd_scene load_steps=19 format=3 uid="uid://bflbgcsy2rali"]
+[gd_scene load_steps=20 format=3 uid="uid://bflbgcsy2rali"]
 
-[ext_resource type="PackedScene" uid="uid://bpxy1vg8l0ra8" path="res://scenes/player.tscn" id="1_2q6dc"]
-[ext_resource type="Script" uid="uid://dsqs6epptlkql" path="res://scripts/gameManager.gd" id="1_w7c3h"]
-[ext_resource type="PackedScene" uid="uid://ggygtq45fav3" path="res://scenes/pistol.tscn" id="3_2r41h"]
+[ext_resource type="PackedScene" uid="uid://bpxy1vg8l0ra8" path="res://scenes/entities/player.tscn" id="1_2q6dc"]
+[ext_resource type="Script" uid="uid://dsqs6epptlkql" path="res://scripts/systems/game_manager.gd" id="1_8c41q"]
+[ext_resource type="PackedScene" uid="uid://ggygtq45fav3" path="res://scenes/weapons/pistol.tscn" id="3_2r41h"]
 [ext_resource type="Script" uid="uid://bfmmuf5s3du1a" path="res://scripts/camera.gd" id="3_w8frs"]
 [ext_resource type="Script" uid="uid://po6tjk7l4ks0" path="res://scripts/HUD.gd" id="5_ppgk2"]
+[ext_resource type="Texture2D" uid="uid://moyabjaf8st1" path="res://assets/handcuffs.png" id="6_b121j"]
+[ext_resource type="Texture2D" uid="uid://cq1hx4n275rpu" path="res://assets/skull.png" id="7_8c41q"]
+[ext_resource type="Texture2D" uid="uid://bsdhho2ixltl" path="res://assets/trees.png" id="8_olg7q"]
 
 [sub_resource type="Curve2D" id="Curve2D_2q6dc"]
 _data = {
@@ -15,20 +18,14 @@ point_count = 2
 [sub_resource type="LabelSettings" id="LabelSettings_ppgk2"]
 font_size = 40
 
-[sub_resource type="LabelSettings" id="LabelSettings_2r41h"]
+[sub_resource type="LabelSettings" id="LabelSettings_klq6b"]
 font_size = 40
 
-[sub_resource type="LabelSettings" id="LabelSettings_klq6b"]
-font_size = 24
-
 [sub_resource type="LabelSettings" id="LabelSettings_b121j"]
-font_size = 24
+font_size = 46
 
 [sub_resource type="LabelSettings" id="LabelSettings_olg7q"]
-font_size = 24
-
-[sub_resource type="LabelSettings" id="LabelSettings_8c41q"]
-font_size = 30
+font_size = 46
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_ppgk2"]
 a = Vector2(1918, -12)
@@ -55,7 +52,9 @@ a = Vector2(-1851, -1683)
 b = Vector2(2555, -1687)
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_w7c3h")
+script = ExtResource("1_8c41q")
+TIME_CHANGER = 0.03
+MINIMUM_COOLDOWN = 0.7
 
 [node name="GameTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -102,46 +101,50 @@ offset_bottom = 56.0
 text = "60 sec"
 label_settings = SubResource("LabelSettings_ppgk2")
 
-[node name="AmmoLabel" type="Label" parent="HUD"]
-unique_name_in_owner = true
-offset_left = 1040.0
-offset_top = 593.0
-offset_right = 1154.0
-offset_bottom = 648.0
-text = "20/20"
-label_settings = SubResource("LabelSettings_2r41h")
+[node name="ArrestedSprite" type="Sprite2D" parent="HUD"]
+texture_filter = 1
+position = Vector2(46, 34)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("6_b121j")
 
 [node name="ArrestedLabel" type="Label" parent="HUD"]
-offset_left = 9.0
+texture_filter = 1
+offset_left = 80.0
 offset_top = 5.0
-offset_right = 136.0
-offset_bottom = 39.0
-text = "Arrested: 0"
+offset_right = 103.0
+offset_bottom = 57.0
+text = "0"
 label_settings = SubResource("LabelSettings_klq6b")
 
+[node name="KilledSprite" type="Sprite2D" parent="HUD"]
+texture_filter = 1
+position = Vector2(154.75, 38)
+scale = Vector2(4.05, 4.05)
+texture = ExtResource("7_8c41q")
+
 [node name="KilledLabel" type="Label" parent="HUD"]
+texture_filter = 1
 offset_left = 180.0
-offset_top = 5.0
+offset_top = 1.0
 offset_right = 271.0
-offset_bottom = 39.0
-text = "Killed: 0"
+offset_bottom = 65.0
+text = "0"
 label_settings = SubResource("LabelSettings_b121j")
 
-[node name="EscapedLabel" type="Label" parent="HUD"]
-offset_left = 311.0
-offset_top = 4.0
-offset_right = 418.0
-offset_bottom = 38.0
-text = "Escaped: 0"
-label_settings = SubResource("LabelSettings_olg7q")
+[node name="EscapedSprite" type="Sprite2D" parent="HUD"]
+texture_filter = 1
+position = Vector2(264, 35)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("8_olg7q")
 
-[node name="ReloadTime" type="Label" parent="HUD"]
-unique_name_in_owner = true
-offset_left = 1075.0
-offset_top = 565.0
-offset_right = 1115.0
-offset_bottom = 607.0
-label_settings = SubResource("LabelSettings_8c41q")
+[node name="EscapedLabel" type="Label" parent="HUD"]
+texture_filter = 1
+offset_left = 297.0
+offset_top = 4.0
+offset_right = 404.0
+offset_bottom = 68.0
+text = "0"
+label_settings = SubResource("LabelSettings_olg7q")
 
 [node name="GameBorder" type="StaticBody2D" parent="."]
 collision_layer = 128
@@ -184,5 +187,6 @@ shape = SubResource("SegmentShape2D_olg7q")
 position = Vector2(0, 3841)
 shape = SubResource("SegmentShape2D_olg7q")
 
+[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
 [connection signal="timeout" from="TimerOfEnemies" to="." method="_on_timer_timeout"]
 [connection signal="area_exited" from="EscapingEnemies" to="." method="_on_escaping_enemies_area_exited"]

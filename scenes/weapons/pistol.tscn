@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://ggygtq45fav3"]
+[gd_scene load_steps=5 format=3 uid="uid://ggygtq45fav3"]
 
-[ext_resource type="Script" uid="uid://be1bnsmrn5p3w" path="res://scripts/pistol.gd" id="1_buff3"]
+[ext_resource type="Script" uid="uid://be1bnsmrn5p3w" path="res://scripts/weapons/pistol.gd" id="1_buff3"]
 [ext_resource type="Texture2D" uid="uid://b71h7utjfo20h" path="res://assets/pistol.png" id="1_igbvm"]
+[ext_resource type="PackedScene" uid="uid://blyyvslhlw1s6" path="res://scenes/ammo_label.tscn" id="3_60a84"]
+
+[sub_resource type="GDScript" id="GDScript_60a84"]
+script/source = "extends Timer
+"
 
 [node name="Pistol" type="Area2D"]
 scale = Vector2(4, 4)
@@ -22,9 +27,12 @@ position = Vector2(4, 0)
 [node name="Reload" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+script = SubResource("GDScript_60a84")
 
 [node name="ShootInterval" type="Timer" parent="."]
 wait_time = 0.25
 one_shot = true
+
+[node name="AmmoLabel" parent="." instance=ExtResource("3_60a84")]
 
 [connection signal="timeout" from="Reload" to="." method="_on_reload_timeout"]

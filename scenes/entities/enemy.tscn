@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cv38ksioak5uq"]
+[gd_scene load_steps=6 format=3 uid="uid://cv38ksioak5uq"]
 
-[ext_resource type="Texture2D" uid="uid://cqjobqyr7tip2" path="res://assets/enemy1.png" id="1_7p1mj"]
-[ext_resource type="Script" uid="uid://3hg4vgsfhmrw" path="res://scripts/enemy.gd" id="1_md0e3"]
+[ext_resource type="Script" uid="uid://3hg4vgsfhmrw" path="res://scripts/entities/enemy.gd" id="1_defa4"]
+[ext_resource type="Texture2D" uid="uid://cqjobqyr7tip2" path="res://assets/enemy1.png" id="3_hlb8m"]
+[ext_resource type="PackedScene" uid="uid://did4fbhdqc2iv" path="res://scenes/components/state_component.tscn" id="4_4fpkd"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_md0e3"]
 radius = 46.5
@@ -14,13 +15,13 @@ height = 144.0
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("1_md0e3")
+script = ExtResource("1_defa4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(10, 5)
 scale = Vector2(5, 5)
-texture = ExtResource("1_7p1mj")
+texture = ExtResource("3_hlb8m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2.5, 0)
@@ -39,6 +40,10 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(-2, 0)
 shape = SubResource("CapsuleShape2D_4ra3w")
+
+[node name="Components" type="Node" parent="."]
+
+[node name="StateComponent" parent="Components" instance=ExtResource("4_4fpkd")]
 
 [connection signal="timeout" from="StunTimer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="HurtBox" to="." method="_on_area_2d_body_entered"]

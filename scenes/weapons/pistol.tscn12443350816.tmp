@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://ggygtq45fav3"]
+
+[ext_resource type="Script" uid="uid://be1bnsmrn5p3w" path="res://scripts/weapons/pistol.gd" id="1_buff3"]
+[ext_resource type="Texture2D" uid="uid://b71h7utjfo20h" path="res://assets/pistol.png" id="1_igbvm"]
+[ext_resource type="Script" uid="uid://dpdeiithn0b34" path="res://scripts/ammo_label.gd" id="3_60a84"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_r3071"]
+font_size = 40
+
+[node name="Pistol" type="Area2D"]
+scale = Vector2(4, 4)
+script = ExtResource("1_buff3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_igbvm")
+
+[node name="BulletSpawnMarker" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(1.75, 0)
+
+[node name="DirectionMarker" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(4, 0)
+
+[node name="Reload" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="ShootInterval" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="AmmoLabel" type="Label" parent="HUD"]
+offset_left = 1044.0
+offset_top = 592.0
+offset_right = 1151.0
+offset_bottom = 647.0
+text = "20/20"
+label_settings = SubResource("LabelSettings_r3071")
+script = ExtResource("3_60a84")
+
+[connection signal="timeout" from="Reload" to="." method="_on_reload_timeout"]

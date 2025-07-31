@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://df8ng0b7x5mff"]
+
+[sub_resource type="GDScript" id="GDScript_og8qq"]
+script/source = "extends Node
+
+class_name Entity
+var id: int
+var components := {}
+	
+func _init(_id: int):
+	id = _id
+
+func add_component(key: String, comp: Node) -> void:
+	components[key] = comp
+
+func get_component(comp: String) -> Node:	return components.get(comp)
+
+func has_component(comp) -> bool:
+	return components.has(comp)
+"
+
+[node name="Entity" type="Node2D"]
+script = SubResource("GDScript_og8qq")

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpmut848ytmo3"]
+
+[ext_resource type="Script" uid="uid://bhpr3nktw04wn" path="res://scripts/components/velocity.gd" id="1_p12h3"]
+
+[node name="VelocityComponent" type="Node"]
+script = ExtResource("1_p12h3")
+maxSpeed = null
